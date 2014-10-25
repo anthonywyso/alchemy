@@ -33,9 +33,9 @@ class StatExtractor(object):
         response = requests.get(self.url, headers=self.headers)
         r_html = lxml.html.fromstring(response.text)
         title = r_html.xpath('//article/header/h1/text()')[0]
-        urls = r_html.xpath('//article/div/p/strong/a/@href')
-        topics = r_html.xpath('//article/div/p/strong/descendant::text()')
-        topics = [term for term in topics if len(term.split(" ")) == 2]
+        urls = r_html.xpath('//article/descendant::strong/a/@href')
+        topics = r_html.xpath('//article/descendant::strong/descendant::text()')
+        topics = [term.encode("ascii", "ignore") for term in topics if len(term.split(":")) == 1]
         return title, urls, topics
 
     def get_tables(self, url_pl):
@@ -58,12 +58,12 @@ class StatExtractor(object):
         INPUT: None
         OUTPUT: string, list(str)
         '''
-        t, urls, e = self.parse_site()
+        t, urls, topics = self.parse_site()
         tables_all = []
         for url in urls:
             player, player_tables = self.get_tables(url)
-            player_header = "".join(["<h1>", player, "</h1>"])
+            player_header = "".join(["<h1><a href='", url, "'>", player, "</a></h1>"])
             player_tables_str = "".join([lxml.html.tostring(table) for table in player_tables])
             tables_all.append(player_header)
             tables_all.append(player_tables_str)
-        return t, tables_all, e
+        return t, tables_all, topics

@@ -2,12 +2,8 @@ from flask import Flask, request, render_template
 from app_backend import StatExtractor, ArticleExtractor
 app = Flask(__name__)
 
-# TODO results -- add a href to article
-# TODO results -- add a href to players
-# TODO results -- add article summary
-# TODO results -- remove irrelevant article topics (days)
-# TODO results -- robust article parsing for players/topics (<strong>)
 # TODO landing/results -- prettify css
+# TODO results -- add article summary, maybe nlp
 
 @app.route('/')
 def index():
@@ -26,20 +22,21 @@ def index():
 
 @app.route('/results', methods=['GET', 'POST'])
 def classification_results():
-    footer = '''<a href="../">Go back for more</a>'''
+    footer = '''<br><h3><a href="../">Go back for more</a><h3>'''
     if request.method == 'POST':
         user_input = request.form['user_input']
     if request.method == 'GET':
-        return '<img src="static/tumblr_m3k1juHo3v1ro2d43.gif"><br>' + footer
+        return '<img src="static/tumblr_m3k1juHo3v1ro2d43.gif">' + footer
     url_init = str(user_input)
     s = StatExtractor(url_init)
     title, stats, topics = s.get_data()
+    link_init = "".join(['<a href="', url_init, '">', title, '</a>'])
 
-    header = render_template('stats_header.html', data=title)
+    header_rendered = render_template('stats_header.html', data=title)
     # tables = render_template('stats_tables.html', data=stats)
-    topics = render_template('stats_topics.html', data=topics)
-    return "".join([header, topics] + stats + [footer])
+    topics_rendered = render_template('stats_topics.html', data=topics)
+    return "".join([header_rendered, link_init, topics_rendered] + stats + [footer])
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=1313, debug=True)
+    app.run(host='0.0.0.0', port=1313, debug=True)
