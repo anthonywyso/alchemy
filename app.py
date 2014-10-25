@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from app_backend import StatExtractor, ArticleExtractor
 app = Flask(__name__)
 
-# TODO landing/results -- prettify css
+# TODO landing/results -- css buttons
 # TODO results -- add article summary, maybe nlp
 
 @app.route('/')
@@ -10,15 +10,15 @@ def index():
     a = ArticleExtractor()
     articles = a.get_articles()
 
-    content = '''
-                <title>Basketball Alchemy</title>
+    header_rendered = render_template('stats_header.html')
+    description = '''
                 <h1> Basketball Alchemy -- Transform Hoops Rumors into Pure Numbers </h1>
-                <h3> Who the f*ck is that?! Just show me his numbers! </h3>
+                <h3> Wait, who the f*ck is that?! Just show me his numbers! </h3>
                 '''
-    articles_show = render_template('stats_articles.html', data=articles)
-    form = render_template('stats_form.html', data=articles[0][1])
+    articles_rendered = render_template('stats_articles.html', data=articles)
+    form_rendered = render_template('stats_form.html', data=articles[0][1])
 
-    return content + form + articles_show
+    return "".join([header_rendered, description, form_rendered, articles_rendered])
 
 @app.route('/results', methods=['GET', 'POST'])
 def classification_results():
@@ -32,10 +32,11 @@ def classification_results():
     title, stats, topics = s.get_data()
     link_init = "".join(['<a href="', url_init, '">', title, '</a>'])
 
-    header_rendered = render_template('stats_header.html', data=title)
+    header_rendered = render_template('stats_header.html')
+    title_rendered = render_template('stats_title.html', data=title)
     # tables = render_template('stats_tables.html', data=stats)
     topics_rendered = render_template('stats_topics.html', data=topics)
-    return "".join([header_rendered, link_init, topics_rendered] + stats + [footer])
+    return "".join([header_rendered, title_rendered, link_init, topics_rendered, stats, footer])
 
 
 if __name__ == '__main__':

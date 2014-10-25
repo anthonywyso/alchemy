@@ -28,7 +28,7 @@ class StatExtractor(object):
     def parse_site(self):
         '''
         INPUT: None
-        OUTPUT: string, list(str)
+        OUTPUT: string, list(str), list(str)
         '''
         response = requests.get(self.url, headers=self.headers)
         r_html = lxml.html.fromstring(response.text)
@@ -41,29 +41,25 @@ class StatExtractor(object):
     def get_tables(self, url_pl):
         '''
         INPUT: string
-        OUTPUT: list(HtmlElement)
+        OUTPUT: string, list(HtmlElement)
         '''
         # pull <div id=all_per_poss, all_advanced, all_shooting, all_college, all_salaries, all_contract>
         response = requests.get(url_pl, headers=self.headers)
         r_html = lxml.html.fromstring(response.text)
         player = r_html.xpath("//h1/text()")[0]
         tables = r_html.xpath("//div[contains(@id, 'all')]/*[not(parent::div[@id='all_player_news'])]")
-        # tables1 = r_html.xpath("//div[contains(@id, 'all')]/div/table")
-        # tables2 = r_html.xpath("//div[contains(@id, 'all')]/table")
-
         return player, tables
 
     def get_data(self):
         '''
         INPUT: None
-        OUTPUT: string, list(str)
+        OUTPUT: string, string, string
         '''
         t, urls, topics = self.parse_site()
-        tables_all = []
+        tables_all = ''
         for url in urls:
             player, player_tables = self.get_tables(url)
             player_header = "".join(["<h1><a href='", url, "'>", player, "</a></h1>"])
             player_tables_str = "".join([lxml.html.tostring(table) for table in player_tables])
-            tables_all.append(player_header)
-            tables_all.append(player_tables_str)
-        return t, tables_all, topics
+            tables_all += player_header + player_tables_str
+        return t, tables_all, ", ".join(topics)
