@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from app_backend import StatExtractor, ArticleExtractor
+import os
 app = Flask(__name__)
 
 # TODO results -- fix relative link paths within tables
@@ -42,4 +43,4 @@ def classification_results():
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=1313, debug=True)
-    app.run()
+    app.run(host=os.environ['OPENSHIFT_PYTHON_IP'], port=8080)
