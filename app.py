@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 # TODO results -- fix relative link paths within tables
 # TODO results -- add article summary, maybe nlp
+# TODO results -- add 2col view of article & stats
 
 @app.route('/')
 def index():
@@ -40,4 +41,5 @@ def classification_results():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1313, debug=True)
+    # app.run(host='0.0.0.0', port=1313, debug=True)
+    app.run(host='0.0.0.0', port=80)
