@@ -32,9 +32,9 @@ class StatExtractor(object):
         '''
         response = requests.get(self.url, headers=self.headers)
         r_html = lxml.html.fromstring(response.text)
-        title = r_html.xpath('//article/header/h1/text()')[0]
-        urls = r_html.xpath('//article/descendant::strong/a/@href')
-        topics = r_html.xpath('//article/descendant::strong/descendant::text()')
+        title = r_html.xpath("//article/header/h1/text()")[0]
+        urls = r_html.xpath("//article/div[@class='entry-content']/descendant::strong/a/@href")
+        topics = r_html.xpath("//article/div[@class='entry-content']/descendant::strong/descendant::text()")
         topics = [term.encode("ascii", "ignore") for term in topics if len(term.split(":")) == 1]
         return title, urls, topics
 

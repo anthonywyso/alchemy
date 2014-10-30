@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from app_backend import StatExtractor, ArticleExtractor
 app = Flask(__name__)
 
-# TODO landing/results -- css buttons
+# TODO results -- fix relative link paths within tables
 # TODO results -- add article summary, maybe nlp
 
 @app.route('/')
@@ -12,8 +12,8 @@ def index():
 
     header_rendered = render_template('stats_header.html')
     description = '''
-                <h1> Basketball Alchemy -- Transform Hoops Rumors into Pure Numbers </h1>
-                <h3> Wait, who the f*ck is that?! Just show me his numbers! </h3>
+                <h1> Basketball Alchemy</h1>
+                <h3> Transform Hoops Rumors into Pure Numbers </h3>
                 '''
     articles_rendered = render_template('stats_articles.html', data=articles)
     form_rendered = render_template('stats_form.html', data=articles[0][1])
