@@ -1,7 +1,5 @@
 #!/usr/bin/python
 import os
-from app import app as application
-
 virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
 virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
 try:
@@ -12,6 +10,8 @@ except IOError:
 # IMPORTANT: Put any additional includes below this line.  If placed above this
 # line, it's possible required libraries won't be in your searchable path
 #
+
+from app import app as application
 
 def application(environ, start_response):
 
