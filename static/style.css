@@ -1,5 +1,8 @@
-body            { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; background: #eee; }
-a:link          { color: #377ba8; }
+body            { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+                color: #363636;
+                background: #eee; }
+a:link          { color: #377ba8; text-decoration: none; }
+a:hover         { color: #377ba8; text-decoration: underline; }
 a:visited       { color: #a86437; } /* #a86437 #102432*/
 h1, h2          { margin: 0; }
 h1              { border-bottom: 2px solid #eee; }

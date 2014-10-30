@@ -1,5 +1,13 @@
 <!doctype html>
-<form action="/results" method='POST' id="urlform">
-    <textarea name="user_input" form="urlform" cols="80">{{ data }}</textarea>
-    <br><input type="submit" class="submit" value="Alchemize!">
-</form>
+<table>
+    <tr>
+        <td>
+            <form action="/results" method='POST' id="urlform">
+                <textarea name="user_input" form="urlform" rows="1" cols="60">{{ data }}</textarea>
+            </form>
+        </td>
+        <td>
+            <input type="submit" class="submit" value="Alchemize!" form="urlform" />
+        </td>
+    </tr>
+</table>

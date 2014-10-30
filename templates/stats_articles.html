@@ -1,5 +1,5 @@
 <!doctype html>
-<h3> Hoops Rumors Recent News </h3>
+<h4> Hoops Rumors Recent News </h4>
 <table>
 {% for title, url in data %}
     <tr>
@@ -8,8 +8,8 @@
         </td>
         <td>
             <form action="/results" method='POST' id="urlform">
-                <input type="hidden" name="user_input" value="{{ url }}">
-                <input type="submit" class="submit" value="Alchemize!">
+                <input type="hidden" name="user_input" value="{{ url }}" />
+                <input type="submit" class="submit" value="Alchemize!" />
             </form>
         </td>
     </tr>
