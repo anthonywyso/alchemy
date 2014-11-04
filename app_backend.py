@@ -52,6 +52,7 @@ class StatExtractor(object):
 
     def get_data(self):
         '''
+        Extracts html from site and repurposes it for display
         INPUT: None
         OUTPUT: string, string, string
         '''
@@ -61,5 +62,11 @@ class StatExtractor(object):
             player, player_tables = self.get_tables(url)
             player_header = "".join(["<h1><a href='", url, "'>", player, "</a></h1>"])
             player_tables_str = "".join([lxml.html.tostring(table) for table in player_tables])
+            player_tables_str = player_tables_str.replace('<table class="', '<table class="table table-condensed table-striped ')
+            player_tables_str = player_tables_str.replace('href="/', 'href="http://www.basketball-reference.com/')
+            player_tables_str = player_tables_str.replace('class="tooltip sort_default_asc"', '')
+            player_tables_str = player_tables_str.replace('class="tooltip over_header"', '')
+            player_tables_str = player_tables_str.replace('class="bold_text over_header"', '')
+            player_tables_str = player_tables_str.replace('class="tooltip"', '')
             tables_all += player_header + player_tables_str
         return t, tables_all, ", ".join(topics)
