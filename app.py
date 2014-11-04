@@ -3,6 +3,7 @@ from app_backend import StatExtractor, ArticleExtractor
 import os
 app = Flask(__name__)
 
+# TODO results -- fix styling, add header
 # TODO results -- fix relative link paths within tables
 # TODO results -- add article summary, maybe nlp
 # TODO results -- add 2col view of article & stats
@@ -11,16 +12,7 @@ app = Flask(__name__)
 def index():
     a = ArticleExtractor()
     articles = a.get_articles()
-
-    header_rendered = render_template('stats_header.html')
-    description = '''
-                <h1> Basketball Alchemy</h1>
-                <h3> Transform Hoops Rumors into Pure Numbers </h3>
-                '''
-    articles_rendered = render_template('stats_articles.html', data=articles)
-    form_rendered = render_template('stats_form.html', data=articles[0][1])
-
-    return "".join([header_rendered, description, form_rendered, articles_rendered])
+    return render_template('index.html', most_recent=articles[0][1], articles=articles)
 
 @app.route('/results', methods=['GET', 'POST'])
 def classification_results():
@@ -42,5 +34,5 @@ def classification_results():
 
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=1313, debug=True)
-    app.run(host=os.environ['OPENSHIFT_PYTHON_IP'], port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run(host=os.environ['OPENSHIFT_PYTHON_IP'], port=8080)
