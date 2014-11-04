@@ -34,5 +34,5 @@ def classification_results():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
-    # app.run(host=os.environ['OPENSHIFT_PYTHON_IP'], port=8080)
+    # app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host=os.environ['OPENSHIFT_PYTHON_IP'], port=8080)
